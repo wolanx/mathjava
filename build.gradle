@@ -1,0 +1,21 @@
+plugins {
+    id 'java'
+}
+
+apply plugin: 'java'
+
+group = 'com.zx5435.mathjava'
+version = '1.0'
+sourceCompatibility = '1.8'
+compileJava.options.encoding = 'UTF-8'
+
+repositories {
+    mavenLocal()
+    maven { url "http://maven.aliyun.com/nexus/content/groups/public" }
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'com.google.code.gson:gson:2.8.6'
+    implementation 'org.junit.jupiter:junit-jupiter:5.4.2'
+}

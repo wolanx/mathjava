@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * @author admin
  */
-public class ParenthesisNode extends BaseNode implements MathNode {
+public class ParenthesisNode extends BaseMathNode implements MathNode {
 
     public MathNode content;
 

@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * @author admin
  */
-public class SymbolNode extends BaseNode implements MathNode {
+public class SymbolNode extends BaseMathNode implements MathNode {
 
     public String name;
 

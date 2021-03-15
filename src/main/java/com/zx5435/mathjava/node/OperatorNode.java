@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * @author admin
  */
-public class OperatorNode extends BaseNode implements MathNode {
+public class OperatorNode extends BaseMathNode implements MathNode {
 
     public String fn;
     public String op;

@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * @author admin
  */
-public class ConstantNode extends BaseNode implements MathNode {
+public class ConstantNode extends BaseMathNode implements MathNode {
 
     public Double value = null;
 

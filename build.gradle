@@ -1,13 +1,19 @@
 plugins {
-    id 'java'
+    id "java-library"
+    id "maven-publish"
+    id "io.github.gradle-nexus.publish-plugin" version "1.0.0"
 }
 
 apply plugin: 'java'
+//apply from: './jar.gradle'
 
 group = 'com.zx5435.mathjava'
 version = '1.0'
 sourceCompatibility = '1.8'
 compileJava.options.encoding = 'UTF-8'
+
+//apply plugin: 'application'
+//mainClassName = 'com.zx5435.mathjava.Mathjs'
 
 repositories {
     mavenLocal()
@@ -18,4 +24,25 @@ repositories {
 dependencies {
     implementation 'com.google.code.gson:gson:2.8.6'
     implementation 'org.junit.jupiter:junit-jupiter:5.4.2'
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from(components.java)
+        }
+    }
+}
+
+nexusPublishing {
+    // https://github.com/gradle-nexus/publish-plugin/
+    repositories {
+        sonatype {  //only for users registered in Sonatype after 24 Feb 2021
+            nexusUrl.set(uri("https://s01.oss.sonatype.org/service/local/"))
+            snapshotRepositoryUrl.set(uri("https://s01.oss.sonatype.org/content/repositories/snapshots/"))
+
+            username = "zx5435"
+            // password = ~/.gradle/gradle.properties sonatypePassword=
+        }
+    }
 }

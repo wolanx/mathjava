@@ -2,11 +2,11 @@ package com.zx5435.mathjava;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.zx5435.mathjava.node.BaseNode;
+import com.zx5435.mathjava.node.BaseMathNode;
 import com.zx5435.mathjava.node.MathNode;
 
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author admin
@@ -19,7 +19,7 @@ public class Mathjs {
         Mathjs mjs = new Mathjs();
 
         JsonObject o = new Gson().fromJson(logic, JsonObject.class);
-        mjs.node = BaseNode.load(o, new MyScope());
+        mjs.node = BaseMathNode.load(o, new MyScope());
 
         return mjs;
     }
@@ -28,7 +28,7 @@ public class Mathjs {
         return evaluate(null);
     }
 
-    public Double evaluate(HashMap<String, Double> scope) {
+    public Double evaluate(Map<String, Double> scope) {
         if (scope != null) {
             node.setScope(scope);
         }

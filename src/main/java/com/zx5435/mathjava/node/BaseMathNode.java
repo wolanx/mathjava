@@ -9,13 +9,13 @@ import java.util.Map;
 /**
  * @author admin
  */
-public abstract class BaseNode {
+public abstract class BaseMathNode {
 
     private final JsonObject raw;
 
     private final MyScope scope;
 
-    public BaseNode(JsonObject logic, MyScope scope) {
+    public BaseMathNode(JsonObject logic, MyScope scope) {
         this.raw = logic;
         this.scope = scope;
     }
@@ -42,7 +42,7 @@ public abstract class BaseNode {
         return this.scope;
     }
 
-    public void setScope(HashMap<String, Double> scope) {
+    public void setScope(Map<String, Double> scope) {
         for (Map.Entry<String, Double> next : scope.entrySet()) {
             this.scope.put(next.getKey(), next.getValue());
         }

@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * @author admin
  */
-public class FunctionNode extends BaseNode implements MathNode {
+public class FunctionNode extends BaseMathNode implements MathNode {
 
     public MathNode fn;
     public List<MathNode> args = new ArrayList<>();

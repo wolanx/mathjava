@@ -7,11 +7,14 @@ import com.zx5435.mathjava.node.MathNode;
 
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 /**
  * @author admin
  */
 public class Mathjs {
+
+    private static final Logger log = Logger.getLogger("Mathjs");
 
     private MathNode node;
 
@@ -20,7 +23,7 @@ public class Mathjs {
 
         JsonObject o = new Gson().fromJson(logic, JsonObject.class);
         mjs.node = BaseMathNode.load(o, new MyScope());
-
+ 
         return mjs;
     }
 
@@ -32,9 +35,9 @@ public class Mathjs {
         if (scope != null) {
             node.setScope(scope);
         }
-
         Double val = node.genVal();
-        System.out.printf("======= %s = %s\n", node.genStr(), val);
+
+        log.info(String.format("======= %s = %s\n", node.genStr(), val));
         return val;
     }
 
@@ -45,7 +48,8 @@ public class Mathjs {
         scope.step = step;
         scope.size = (end - start) / step;
         List<Double> val = node.genExpr();
-        System.out.printf("======= %s = %s\n", node.genStr(), val);
+
+        log.info(String.format("======= %s = %s\n", node.genStr(), val));
         return val;
     }
 

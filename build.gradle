@@ -5,15 +5,14 @@ plugins {
 }
 
 apply plugin: 'java'
+apply plugin: 'maven-publish'
+apply plugin: 'signing'
 //apply from: './jar.gradle'
 
-group = 'com.zx5435.mathjava'
+group = 'com.zx5435'
 version = '1.0'
-sourceCompatibility = '1.8'
+sourceCompatibility = 1.8
 compileJava.options.encoding = 'UTF-8'
-
-//apply plugin: 'application'
-//mainClassName = 'com.zx5435.mathjava.Mathjs'
 
 repositories {
     mavenLocal()
@@ -26,12 +25,57 @@ dependencies {
     implementation 'org.junit.jupiter:junit-jupiter:5.4.2'
 }
 
+task sourcesJar(type: Jar) {
+    from sourceSets.main.allJava
+    classifier = 'sources'
+}
+
+task javadocJar(type: Jar) {
+    from javadoc
+    classifier = 'javadoc'
+}
+
+artifacts {
+    archives javadocJar, sourcesJar
+}
+
 publishing {
     publications {
         mavenJava(MavenPublication) {
-            from(components.java)
+            from components.java
+            artifact sourcesJar
+            artifact javadocJar
+            pom {
+                name = 'mathjava'
+                description = 'mathjs java edition'
+                url = 'https://github.com/zx5435/mathjava'
+                licenses {
+                    license {
+                        name = 'The Apache License, Version 2.0'
+                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        name = 'Yujie.Zhao'
+                        email = '825407762@qq.com'
+                    }
+                }
+                scm {
+                    url = 'https://github.com/zx5435/mathjava'
+                    connection = 'scm:git:git://github.com/zx5435/mathjava.git'
+                    developerConnection = 'scm:git:ssh://git@github.com:zx5435/mathjava.git'
+                }
+            }
         }
     }
+}
+
+signing {
+    sign publishing.publications.mavenJava
+    // gpg --generate-key
+    // gpg --export-secret-keys -o secring.gpg    # config link it
+    // gpg --export -a    # send public to https://keyserver.ubuntu.com
 }
 
 nexusPublishing {

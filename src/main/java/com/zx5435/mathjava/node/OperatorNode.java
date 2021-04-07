@@ -4,7 +4,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.zx5435.mathjava.MyScope;
-import com.zx5435.mathjava.node.function.MyMath;
+import com.zx5435.mathjava.node.function.MathFunction;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -40,14 +40,14 @@ public class OperatorNode extends BaseMathNode implements MathNode {
     }
 
     @Override
-    public Double genVal() {
-        Double a = args.get(0).genVal();
-        Double b = args.get(1).genVal();
+    public MathResult genVal() {
+        MathResult a = args.get(0).genVal();
+        MathResult b = args.get(1).genVal();
         if (a == null || b == null) {
             return null;
         }
         try {
-            return MyMath.runTwo(this.fn, a, b);
+            return MathFunction.runTwo(this.fn, a, b);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return null;
@@ -55,22 +55,22 @@ public class OperatorNode extends BaseMathNode implements MathNode {
     }
 
     @Override
-    public List<Double> genExpr() {
-        List<Double> a = args.get(0).genExpr();
-        List<Double> b = args.get(1).genExpr();
+    public List<MathResult> genExpr() {
+        List<MathResult> a = args.get(0).genExpr();
+        List<MathResult> b = args.get(1).genExpr();
 
         if (a == null || b == null || a.size() != b.size()) {
             return null;
         }
 
-        List<Double> c = new ArrayList<>(Collections.nCopies(this.getScope().size, null));
-        try {
-            for (int i = 0; i < c.size(); i++) {
-                c.set(i, MyMath.runTwo(this.fn, a.get(i), b.get(i)));
-            }
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
+        List<MathResult> c = new ArrayList<>(Collections.nCopies(this.getScope().size, null));
+//        try {
+//            for (int i = 0; i < c.size(); i++) {
+//                c.set(i, MyMath.runTwo(this.fn, a.get(i), b.get(i)));
+//            }
+//        } catch (Exception e) {
+//            System.out.println(e.getMessage());
+//        }
 
         return c;
     }

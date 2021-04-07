@@ -12,14 +12,22 @@ import java.util.List;
  */
 public class ConstantNode extends BaseMathNode implements MathNode {
 
-    public Double value = null;
+    public MathResult value = null;
 
     public ConstantNode(JsonObject raw, MyScope scope) {
         super(raw, scope);
 
         JsonElement value1 = raw.get("value");
+
+        this.value = new MathResult(null);
+
         if (!value1.isJsonNull()) {
-            this.value = value1.getAsDouble();
+            try {
+                double asDouble = value1.getAsDouble();
+                this.value = new MathResult(asDouble);
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
         }
     }
 
@@ -33,19 +41,20 @@ public class ConstantNode extends BaseMathNode implements MathNode {
 
     @Override
     public String genStr() {
-        if (this.genVal() == null) {
+        Double aDouble = this.genVal().getDouble();
+        if (aDouble == null) {
             return null;
         }
-        return doubleTrans(this.genVal());
+        return doubleTrans(aDouble);
     }
 
     @Override
-    public Double genVal() {
-        return value;
+    public MathResult genVal() {
+        return this.value;
     }
 
     @Override
-    public List<Double> genExpr() {
+    public List<MathResult> genExpr() {
         return Collections.nCopies(this.getScope().size, this.genVal());
     }
 

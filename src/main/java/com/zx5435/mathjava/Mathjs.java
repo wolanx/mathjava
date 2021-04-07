@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.zx5435.mathjava.node.BaseMathNode;
 import com.zx5435.mathjava.node.MathNode;
+import com.zx5435.mathjava.node.MathResult;
 
 import java.util.List;
 import java.util.Map;
@@ -27,27 +28,27 @@ public class Mathjs {
         return mjs;
     }
 
-    public Double evaluate() {
-        return evaluate(null);
+    public MathResult evaluate() {
+        return this.evaluate(null);
     }
 
-    public Double evaluate(Map<String, Double> scope) {
+    public MathResult evaluate(Map<String, Double> scope) {
         if (scope != null) {
             node.setScope(scope);
         }
-        Double val = node.genVal();
+        MathResult val = node.genVal();
 
-        log.info(String.format("======= %s = %s\n", node.genStr(), val));
+        log.info(String.format("======= %s = %s\n", node.genStr(), val.get()));
         return val;
     }
 
-    public List<Double> evaluateByExpr(int start, int end, int step) {
+    public List<MathResult> evaluateByExpr(int start, int end, int step) {
         MyScope scope = node.getScope();
         scope.start = start;
         scope.end = end;
         scope.step = step;
         scope.size = (end - start) / step;
-        List<Double> val = node.genExpr();
+        List<MathResult> val = node.genExpr();
 
         log.info(String.format("======= %s = %s\n", node.genStr(), val));
         return val;

@@ -1,6 +1,7 @@
 package com.zx5435.mathjava.node.function;
 
 import com.zx5435.mathjava.node.MathNode;
+import com.zx5435.mathjava.node.MathResult;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -12,27 +13,38 @@ import java.util.function.Function;
 /**
  * @author admin
  */
-public class MyMath {
+public class MathFunction {
 
-    private static final Map<String, Function<List<MathNode>, Double>> FN_MAP = new HashMap<>();
-    private static final Map<String, Function<List<List<Double>>, List<Double>>> FN_MAP_EXPR = new HashMap<>();
+    private static final Map<String, Function<List<MathNode>, MathResult>> FN_MAP = new HashMap<>();
+    private static final Map<String, Function<List<List<MathResult>>, List<MathResult>>> FN_MAP_EXPR = new HashMap<>();
 
     static {
-        FN_MAP.put("sin", list -> Math.sin(list.get(0).genVal()));
-        FN_MAP.put("cos", list -> Math.cos(list.get(0).genVal()));
-
-
-        FN_MAP_EXPR.put("sin", list -> {
-            List<Double> doubles = list.get(0);
-            for (int i = 0; i < doubles.size(); i++) {
-                doubles.set(i, Math.sin(doubles.get(i)));
-            }
-            return doubles;
-        });
+//        FN_MAP.put("sin", list -> Math.sin(list.get(0).genVal()));
+//        FN_MAP.put("cos", list -> Math.cos(list.get(0).genVal()));
+//
+//
+//        FN_MAP_EXPR.put("sin", list -> {
+//            List<OutMath<?>> doubles = list.get(0);
+//            for (int i = 0; i < doubles.size(); i++) {
+//                doubles.set(i, Math.sin(doubles.get(i)));
+//            }
+//            return doubles;
+//        });
     }
 
     public static Double runFn(String fn, List<MathNode> args) throws Exception {
-        Function<List<MathNode>, Double> func = FN_MAP.get(fn);
+        Function<List<MathNode>, MathResult> func = FN_MAP.get(fn);
+
+        if (func == null) {
+            throw new Exception("no fn: " + fn);
+        }
+
+//        return func.apply(args);
+        return null;
+    }
+
+    public static List<MathResult> runFnExpr(String fn, List<List<MathResult>> args) throws Exception {
+        Function<List<List<MathResult>>, List<MathResult>> func = FN_MAP_EXPR.get(fn);
 
         if (func == null) {
             throw new Exception("no fn: " + fn);
@@ -41,32 +53,22 @@ public class MyMath {
         return func.apply(args);
     }
 
-    public static List<Double> runFnExpr(String fn, List<List<Double>> args) throws Exception {
-        Function<List<List<Double>>, List<Double>> func = FN_MAP_EXPR.get(fn);
-
-        if (func == null) {
-            throw new Exception("no fn: " + fn);
-        }
-
-        return func.apply(args);
-    }
-
-    public static void loadExtFunc(Map<String, Function<List<MathNode>, Double>> fnMap) {
-        for (Map.Entry<String, Function<List<MathNode>, Double>> one : fnMap.entrySet()) {
+    public static void loadExtFunc(Map<String, Function<List<MathNode>, MathResult>> fnMap) {
+        for (Map.Entry<String, Function<List<MathNode>, MathResult>> one : fnMap.entrySet()) {
             FN_MAP.put(one.getKey(), one.getValue());
         }
     }
 
-    public static double runTwo(String fn, double a, double b) throws Exception {
+    public static MathResult runTwo(String fn, MathResult a, MathResult b) throws Exception {
         switch (fn) {
             case "add":
-                return add(a, b);
+                return new MathResult(add(a.getDouble(), b.getDouble()));
             case "subtract":
-                return subtract(a, b);
+                return new MathResult(subtract(a.getDouble(), b.getDouble()));
             case "multiply":
-                return multiply(a, b);
+                return new MathResult(multiply(a.getDouble(), b.getDouble()));
             case "divide":
-                return divide(a, b);
+                return new MathResult(divide(a.getDouble(), b.getDouble()));
             default:
                 throw new Exception("no fn: " + fn);
         }

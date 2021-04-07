@@ -25,14 +25,14 @@ public abstract class BaseMathNode {
         switch (mathjs) {
             case "ConstantNode":
                 return new ConstantNode(logic, scope);
-            case "FunctionNode":
-                return new FunctionNode(logic, scope);
+//            case "FunctionNode":
+//                return new FunctionNode(logic, scope);
             case "OperatorNode":
                 return new OperatorNode(logic, scope);
-            case "ParenthesisNode":
-                return new ParenthesisNode(logic, scope);
-            case "SymbolNode":
-                return new SymbolNode(logic, scope);
+//            case "ParenthesisNode":
+//                return new ParenthesisNode(logic, scope);
+//            case "SymbolNode":
+//                return new SymbolNode(logic, scope);
             default:
                 return null;
         }

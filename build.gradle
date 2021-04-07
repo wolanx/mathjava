@@ -90,3 +90,7 @@ nexusPublishing {
         }
     }
 }
+
+test {
+    useJUnitPlatform()
+}

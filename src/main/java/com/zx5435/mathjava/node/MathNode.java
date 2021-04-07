@@ -36,13 +36,13 @@ public interface MathNode {
      *
      * @return val
      */
-    Double genVal();
+    MathResult genVal();
 
     /**
      * gen expr
      *
      * @return expr
      */
-    List<Double> genExpr();
+    List<MathResult> genExpr();
 
 }

@@ -2,7 +2,10 @@ package com.zx5435.mathjava.node;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.zx5435.mathjava.MyScope;
+import com.zx5435.mathjava.MathNode;
+import com.zx5435.mathjava.MathResult;
+import com.zx5435.mathjava.MathScope;
+import com.zx5435.mathjava.node.base.BaseMathNode;
 
 import java.util.Collections;
 import java.util.List;
@@ -12,14 +15,14 @@ import java.util.List;
  */
 public class ConstantNode extends BaseMathNode implements MathNode {
 
-    public MathResult value = null;
+    public MathResult value;
 
-    public ConstantNode(JsonObject raw, MyScope scope) {
+    public ConstantNode(JsonObject raw, MathScope scope) {
         super(raw, scope);
 
         JsonElement value1 = raw.get("value");
 
-        this.value = new MathResult(null);
+        this.value = new MathResult();
 
         if (!value1.isJsonNull()) {
             try {

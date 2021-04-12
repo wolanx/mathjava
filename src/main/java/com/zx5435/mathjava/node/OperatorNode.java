@@ -3,7 +3,10 @@ package com.zx5435.mathjava.node;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.zx5435.mathjava.MyScope;
+import com.zx5435.mathjava.MathNode;
+import com.zx5435.mathjava.MathResult;
+import com.zx5435.mathjava.MathScope;
+import com.zx5435.mathjava.node.base.BaseMathNode;
 import com.zx5435.mathjava.node.function.MathFunction;
 
 import java.util.ArrayList;
@@ -20,7 +23,7 @@ public class OperatorNode extends BaseMathNode implements MathNode {
     public ArrayList<MathNode> args = new ArrayList<>();
     public boolean implicit;
 
-    public OperatorNode(JsonObject raw, MyScope scope) {
+    public OperatorNode(JsonObject raw, MathScope scope) {
         super(raw, scope);
 
         fn = raw.get("fn").getAsString();
@@ -43,8 +46,8 @@ public class OperatorNode extends BaseMathNode implements MathNode {
     public MathResult genVal() {
         MathResult a = args.get(0).genVal();
         MathResult b = args.get(1).genVal();
-        if (a == null || b == null) {
-            return null;
+        if (a == null || b == null || a.getDouble() == null || b.getDouble() == null) {
+            return new MathResult();
         }
         try {
             return MathFunction.runTwo(this.fn, a, b);

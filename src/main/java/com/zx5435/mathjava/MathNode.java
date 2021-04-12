@@ -1,6 +1,4 @@
-package com.zx5435.mathjava.node;
-
-import com.zx5435.mathjava.MyScope;
+package com.zx5435.mathjava;
 
 import java.util.List;
 import java.util.Map;
@@ -15,7 +13,7 @@ public interface MathNode {
      *
      * @return scope
      */
-    MyScope getScope();
+    MathScope getScope();
 
     /**
      * set scope

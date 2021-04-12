@@ -9,32 +9,25 @@ import com.zx5435.mathjava.node.base.BaseMathNode;
 import java.util.List;
 
 /**
- * @author admin
+ * @author 913332
  */
-public class ParenthesisNode extends BaseMathNode implements MathNode {
-
-    public MathNode content;
-
-    public ParenthesisNode(JsonObject raw, MathScope scope) {
-        super(raw, scope);
-
-        JsonObject o = raw.get("content").getAsJsonObject();
-        content = load(o, this.getScope());
+public class ErrorNode extends BaseMathNode implements MathNode {
+    public ErrorNode(JsonObject logic, MathScope scope) {
+        super(logic, scope);
     }
 
     @Override
     public String genStr() {
-        return "(" + this.content.genStr() + ")";
+        return "err:" + this.getRaw().get("mathjs").getAsString();
     }
 
     @Override
     public MathResult genVal() {
-        return this.content.genVal();
+        return null;
     }
 
     @Override
     public List<MathResult> genExpr() {
         return null;
     }
-
 }

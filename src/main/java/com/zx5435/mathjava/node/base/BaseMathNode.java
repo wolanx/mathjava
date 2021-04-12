@@ -1,9 +1,10 @@
-package com.zx5435.mathjava.node;
+package com.zx5435.mathjava.node.base;
 
 import com.google.gson.JsonObject;
-import com.zx5435.mathjava.MyScope;
+import com.zx5435.mathjava.MathNode;
+import com.zx5435.mathjava.MathScope;
+import com.zx5435.mathjava.node.*;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -13,32 +14,36 @@ public abstract class BaseMathNode {
 
     private final JsonObject raw;
 
-    private final MyScope scope;
+    private final MathScope scope;
 
-    public BaseMathNode(JsonObject logic, MyScope scope) {
+    public BaseMathNode(JsonObject logic, MathScope scope) {
         this.raw = logic;
         this.scope = scope;
     }
 
-    public static MathNode load(JsonObject logic, MyScope scope) {
+    public static MathNode load(JsonObject logic, MathScope scope) {
         String mathjs = logic.get("mathjs").getAsString();
         switch (mathjs) {
             case "ConstantNode":
                 return new ConstantNode(logic, scope);
-//            case "FunctionNode":
-//                return new FunctionNode(logic, scope);
+            case "FunctionNode":
+                return new FunctionNode(logic, scope);
             case "OperatorNode":
                 return new OperatorNode(logic, scope);
 //            case "ParenthesisNode":
 //                return new ParenthesisNode(logic, scope);
-//            case "SymbolNode":
-//                return new SymbolNode(logic, scope);
+            case "SymbolNode":
+                return new SymbolNode(logic, scope);
             default:
-                return null;
+                return new ErrorNode(logic, scope);
         }
     }
 
-    public MyScope getScope() {
+    public JsonObject getRaw() {
+        return this.raw;
+    }
+
+    public MathScope getScope() {
         return this.scope;
     }
 

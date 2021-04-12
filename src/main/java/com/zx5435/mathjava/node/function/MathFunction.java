@@ -1,7 +1,7 @@
 package com.zx5435.mathjava.node.function;
 
-import com.zx5435.mathjava.node.MathNode;
-import com.zx5435.mathjava.node.MathResult;
+import com.zx5435.mathjava.MathNode;
+import com.zx5435.mathjava.MathResult;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -19,28 +19,27 @@ public class MathFunction {
     private static final Map<String, Function<List<List<MathResult>>, List<MathResult>>> FN_MAP_EXPR = new HashMap<>();
 
     static {
-//        FN_MAP.put("sin", list -> Math.sin(list.get(0).genVal()));
-//        FN_MAP.put("cos", list -> Math.cos(list.get(0).genVal()));
-//
-//
-//        FN_MAP_EXPR.put("sin", list -> {
-//            List<OutMath<?>> doubles = list.get(0);
-//            for (int i = 0; i < doubles.size(); i++) {
-//                doubles.set(i, Math.sin(doubles.get(i)));
-//            }
-//            return doubles;
-//        });
+        FN_MAP.put("sin", list -> new MathResult(Math.sin(list.get(0).genVal().getDouble())));
+        FN_MAP.put("cos", list -> new MathResult(Math.cos(list.get(0).genVal().getDouble())));
+
+
+        FN_MAP_EXPR.put("sin", list -> {
+            List<MathResult> doubles = list.get(0);
+            for (int i = 0; i < doubles.size(); i++) {
+                doubles.set(i, new MathResult(Math.sin(doubles.get(i).getDouble())));
+            }
+            return doubles;
+        });
     }
 
-    public static Double runFn(String fn, List<MathNode> args) throws Exception {
+    public static MathResult runFn(String fn, List<MathNode> args) throws Exception {
         Function<List<MathNode>, MathResult> func = FN_MAP.get(fn);
 
         if (func == null) {
             throw new Exception("no fn: " + fn);
         }
 
-//        return func.apply(args);
-        return null;
+        return func.apply(args);
     }
 
     public static List<MathResult> runFnExpr(String fn, List<List<MathResult>> args) throws Exception {
@@ -69,6 +68,8 @@ public class MathFunction {
                 return new MathResult(multiply(a.getDouble(), b.getDouble()));
             case "divide":
                 return new MathResult(divide(a.getDouble(), b.getDouble()));
+            case "larger":
+                return new MathResult(a.getDouble() > b.getDouble());
             default:
                 throw new Exception("no fn: " + fn);
         }

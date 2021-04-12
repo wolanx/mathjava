@@ -1,10 +1,9 @@
 package com.zx5435.mathjava;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
-import com.zx5435.mathjava.node.BaseMathNode;
-import com.zx5435.mathjava.node.MathNode;
-import com.zx5435.mathjava.node.MathResult;
+import com.zx5435.mathjava.node.base.BaseMathNode;
 
 import java.util.List;
 import java.util.Map;
@@ -17,14 +16,16 @@ public class Mathjs {
 
     private static final Logger log = Logger.getLogger("Mathjs");
 
+    private JsonObject json;
     private MathNode node;
 
     public static Mathjs compileString(String logic) {
         Mathjs mjs = new Mathjs();
 
         JsonObject o = new Gson().fromJson(logic, JsonObject.class);
-        mjs.node = BaseMathNode.load(o, new MyScope());
- 
+        mjs.json = o;
+        mjs.node = BaseMathNode.load(o, new MathScope());
+
         return mjs;
     }
 
@@ -37,13 +38,18 @@ public class Mathjs {
             node.setScope(scope);
         }
         MathResult val = node.genVal();
+        if (val == null) {
+            val = new MathResult();
+        }
 
-        log.info(String.format("======= %s = %s\n", node.genStr(), val.get()));
+        String jsonStr = new GsonBuilder().setPrettyPrinting().create().toJson(json);
+        System.out.println(jsonStr);
+        log.info(String.format("======= %s = %s\n", node.genStr(), val.getDouble()));
         return val;
     }
 
     public List<MathResult> evaluateByExpr(int start, int end, int step) {
-        MyScope scope = node.getScope();
+        MathScope scope = node.getScope();
         scope.start = start;
         scope.end = end;
         scope.step = step;

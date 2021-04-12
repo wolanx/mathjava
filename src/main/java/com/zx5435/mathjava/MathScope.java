@@ -5,7 +5,7 @@ import java.util.HashMap;
 /**
  * @author admin
  */
-public class MyScope extends HashMap<String, Double> {
+public class MathScope extends HashMap<String, Double> {
 
     public int start;
     public int end;

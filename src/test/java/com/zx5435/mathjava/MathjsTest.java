@@ -2,9 +2,20 @@ package com.zx5435.mathjava;
 
 import org.junit.jupiter.api.Test;
 
+import java.lang.annotation.Annotation;
 import java.util.HashMap;
 
 class MathjsTest {
+
+    /**
+     * @apiNote { "value": 3,"mathjs": "ConstantNode" }
+     */
+    @Test
+    void yml() throws NoSuchMethodException {
+        Annotation[] yml = getClass().getDeclaredMethod("yml").getAnnotations();
+        System.out.println();
+
+    }
 
     @Test
     void a3() {

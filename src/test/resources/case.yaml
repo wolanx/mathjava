@@ -1,0 +1,7 @@
+cases:
+  - name: c6
+    json: { "value": 3,"mathjs": "ConstantNode" }
+    out: 3
+  - name: c18*3
+    json: { "fn": "multiply","op": "*","args": [ { "value": 3,"mathjs": "ConstantNode" },{ "value": 6.1,"mathjs": "ConstantNode" } ],"mathjs": "OperatorNode","implicit": false }
+    out: 18.3
